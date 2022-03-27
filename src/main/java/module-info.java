@@ -1,4 +1,4 @@
-module app.mvc.unedl_app {
+module app.unedl {
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -6,6 +6,10 @@ module app.mvc.unedl_app {
     requires com.dlsc.formsfx;
     requires org.kordamp.ikonli.javafx;
 
-    opens app.mvc.unedl_app to javafx.fxml;
-    exports app.mvc.unedl_app;
+    opens app.unedl.controllers to javafx.fxml;
+    exports app.unedl.controllers;
+    exports app.unedl.views;
+    opens app.unedl.views to javafx.fxml;
+//    opens app.unedl.models to javafx.fxml;
+//    exports app.unedl.models;
 }
