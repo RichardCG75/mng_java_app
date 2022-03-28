@@ -1,5 +1,7 @@
 package app.unedl.models;
 
+import javafx.beans.property.StringProperty;
+
 import java.util.Date;
 
 //Define cualquier individuo que pertenezca a la institucion UNEDL
@@ -15,9 +17,9 @@ public class MiembroUNEDL {
 //    }
 
     private int id;
-    private String nombre;
-    private String apellidoPaterno;
-    private String apellidoMaterno;
+    private StringProperty nombre;
+    private StringProperty apellidoPaterno;
+    private StringProperty apellidoMaterno;
     private Date fechaAlta;
     private Date fechaBaja;
     private Horarios[] horarios;

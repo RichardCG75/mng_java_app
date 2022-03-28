@@ -10,6 +10,4 @@ module app.unedl {
     exports app.unedl.controllers;
     exports app.unedl.views;
     opens app.unedl.views to javafx.fxml;
-//    opens app.unedl.models to javafx.fxml;
-//    exports app.unedl.models;
 }
