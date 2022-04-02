@@ -4,7 +4,7 @@ import javafx.beans.property.StringProperty;
 
 import java.util.Date;
 
-//Define cualquier individuo que pertenezca a la institucion UNEDL
+//Define cualquier miembro que pertenece a UNEDL
 public class MiembroUNEDL {
 
     //TODO: code constructor
@@ -12,14 +12,10 @@ public class MiembroUNEDL {
 
     }
 
-//    public Jornada obtenerJornadaLunes(){
-//        null;
-//    }
-
     private int id;
-    private StringProperty nombre;
-    private StringProperty apellidoPaterno;
-    private StringProperty apellidoMaterno;
+    private String nombre;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
     private Date fechaAlta;
     private Date fechaBaja;
     private Horarios[] horarios;

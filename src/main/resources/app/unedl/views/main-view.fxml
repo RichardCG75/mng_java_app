@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.unedl.controllers.SceneViewController">
    <top>
       <HBox alignment="CENTER" prefHeight="16.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -66,26 +66,113 @@
                               <TextField />
                            </children>
                         </HBox>
+                        <HBox alignment="TOP_RIGHT" prefHeight="12.0" prefWidth="260.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#onCrearAlumno" text="Crear" />
+                              <Separator orientation="VERTICAL" prefHeight="26.0" prefWidth="0.0" />
+                              <Button mnemonicParsing="false" onAction="#onLimpiarAlumno" text="Limpiar" />
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </content>
           </TitledPane>
           <TitledPane text="Crear Profesor...">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
+               <content>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <HBox prefHeight="17.0" prefWidth="180.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="100.0" text="Nombre:" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="17.0" prefWidth="180.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="100.0" text="Apellido 1:" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="17.0" prefWidth="180.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="100.0" text="Apellido 2:" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="17.0" prefWidth="180.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="100.0" text="ID:" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="17.0" prefWidth="180.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="100.0" text="Cedula:" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_RIGHT" prefHeight="12.0" prefWidth="260.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#onCrearProfesor" text="Crear" />
+                              <Separator orientation="VERTICAL" prefHeight="26.0" prefWidth="0.0" />
+                              <Button mnemonicParsing="false" onAction="#onLimpiarProfesor" text="Limpiar" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content>
           </TitledPane>
-          <TitledPane text="Crear Corrdinador...">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
+          <TitledPane text="Crear Coordinador...">
+               <content>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <HBox prefHeight="17.0" prefWidth="180.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="100.0" text="Nombre:" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="17.0" prefWidth="180.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="100.0" text="Apellido 1:" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="17.0" prefWidth="180.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="100.0" text="Apellido 2:" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="17.0" prefWidth="180.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="100.0" text="ID:" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="17.0" prefWidth="180.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="100.0" text="Cedula:" />
+                              <TextField />
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_RIGHT" prefHeight="12.0" prefWidth="260.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#onCrearCoordinador" text="Crear" />
+                              <Separator orientation="VERTICAL" prefHeight="26.0" prefWidth="0.0" />
+                              <Button mnemonicParsing="false" onAction="#onLimpiarCoordinador" text="Limpiar" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content>
           </TitledPane>
             <TitledPane animated="false" collapsible="false" expanded="false">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
                <graphic>
-                  <Button mnemonicParsing="false" text="Button" />
+                  <Button mnemonicParsing="false" onAction="#onLimpiarFormulario" text="Limpiar!" />
                </graphic>
             </TitledPane>
         </panes>
