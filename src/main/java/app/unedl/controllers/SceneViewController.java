@@ -1,12 +1,17 @@
 package app.unedl.controllers;
 
 import app.unedl.utils.AppLogger;
+import app.unedl.utils.ConnecionBD;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class SceneViewController {
 
@@ -30,6 +35,24 @@ public class SceneViewController {
 
     public void onCrearAlumno(ActionEvent e) {
         AppLogger.LOGGER.log(System.Logger.Level.INFO, "creando alumno...");
+
+        //region database connection
+        String jdbcURL = "jdbc:mysql://54.215.148.52:3306/sql3485197";
+        String user = "sql3485197";
+        String pass = "RXHirfk9vP";
+
+        ConnecionBD connecionBD = new ConnecionBD(jdbcURL, user, pass);
+        Connection connection = connecionBD.getConnection();
+
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute("INSERT INTO Estudiante VALUES(2, 'Madrazo', 'Gonzales', 'madrazo.gonzales@gmail.com')");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        //endregion
+
     }
 
     public void onLimpiarAlumno(ActionEvent e) {

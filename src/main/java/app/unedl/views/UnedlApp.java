@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+import app.unedl.utils.*;
+
 public class UnedlApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
@@ -19,5 +21,9 @@ public class UnedlApp extends Application {
 
     public static void main(String[] args) {
         launch();
+
+
+
+
     }
 }
