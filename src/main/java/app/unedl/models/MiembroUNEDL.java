@@ -7,17 +7,21 @@ import java.util.Date;
 //Define cualquier miembro que pertenece a UNEDL
 public class MiembroUNEDL {
 
+    public MiembroUNEDL(){
+
+    }
+
     //TODO: code constructor
     public MiembroUNEDL(int id, String nombre, String apellido1, String apellido2){
 
     }
 
     private int id;
-    private String nombre;
-    private String apellidoPaterno;
-    private String apellidoMaterno;
-    private Date fechaAlta;
-    private Date fechaBaja;
+    private StringProperty nombre;
+    private StringProperty apellidoPaterno;
+    private StringProperty apellidoMaterno;
+    private StringProperty fechaAlta;
+    private StringProperty fechaBaja;
     private Horarios[] horarios;
     private boolean estaActivo;
 }

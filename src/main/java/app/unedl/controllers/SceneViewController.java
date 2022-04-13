@@ -1,28 +1,15 @@
 package app.unedl.controllers;
 
 import app.unedl.utils.AppLogger;
-import app.unedl.utils.ConnecionBD;
+import app.unedl.utils.ConexionBD;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class SceneViewController {
 
-    @FXML private BorderPane sceneArea;
-    @FXML private TextArea textArea;
-    @FXML private HBox topArea;
-    @FXML private HBox bottonArea;
-    @FXML private VBox leftArea;
-    @FXML private VBox rightArea;
-
-
+    Connection conexion = ConexionBD.obtenerConexion();
 
     public void initialize(){
 
@@ -36,16 +23,14 @@ public class SceneViewController {
     public void onCrearAlumno(ActionEvent e) {
         AppLogger.LOGGER.log(System.Logger.Level.INFO, "creando alumno...");
 
-        //region database connection
-        String jdbcURL = "jdbc:mysql://54.215.148.52:3306/sql3485197";
-        String user = "sql3485197";
-        String pass = "RXHirfk9vP";
+        //region crear alumno
 
-        ConnecionBD connecionBD = new ConnecionBD(jdbcURL, user, pass);
-        Connection connection = connecionBD.getConnection();
+        //obtener datos de la vista
 
+
+        //crear y ejecutar sentencia
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = conexion.createStatement();
             statement.execute("INSERT INTO Estudiante VALUES(2, 'Madrazo', 'Gonzales', 'madrazo.gonzales@gmail.com')");
 
         } catch (SQLException ex) {
@@ -74,4 +59,5 @@ public class SceneViewController {
     public void onLimpiarCoordinador(ActionEvent e) {
         AppLogger.LOGGER.log(System.Logger.Level.INFO, "limpiando coordinador...");
     }
+
 }

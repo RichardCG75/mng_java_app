@@ -20,10 +20,7 @@ public class UnedlApp extends Application {
     }
 
     public static void main(String[] args) {
+        ConexionBD.establecerConexionEstandar();
         launch();
-
-
-
-
     }
 }
