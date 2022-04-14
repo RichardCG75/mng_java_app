@@ -2,38 +2,61 @@ package app.unedl.controllers;
 
 import app.unedl.utils.AppLogger;
 import app.unedl.utils.ConexionBD;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class SceneViewController {
 
-    @FXML
-    private TextField nombre_campo;
-    @FXML
-    private TextField apellido1_campo;
-    @FXML
-    private TextField apellido2_campo;
-    @FXML
-    private TextField email_campo;
-
     Connection conexion = ConexionBD.obtenerConexion();
+
+    @FXML private TextField nombre_campo;
+    @FXML private TextField apellido1_campo;
+    @FXML private TextField apellido2_campo;
+    @FXML private TextField matricula_campo;
+    @FXML private TextField cedula_campo;
+    @FXML private TextField email_campo;
+    @FXML private ChoiceBox<String> selector_tipo_izq;
+    @FXML private ChoiceBox<String> selector_tipo_der;
 
     public void initialize(){
 
+        //region selectores
+        selector_tipo_izq.getItems().addAll("Estudiante", "Profesor", "Coordinador");
+        selector_tipo_izq.setValue("Estudiante");
+        selector_tipo_der.getItems().addAll("Estudiante", "Profesor", "Coordinador");
+        selector_tipo_der.setValue("Estudiante");
+
+        //iniciar lista de miembros desde base de datos
+        ObservableList<String> miembros = FXCollections.observableArrayList();
+        //endregion
+
     }
 
-    public void onLimpiarFormulario(ActionEvent e) {
-//        AppLogger.LOGGER.log(System.Logger.Level.INFO, "creando MiembroUNEDL..");
-        AppLogger.LOGGER.log(System.Logger.Level.INFO, "limpiando formulario...");
+    public void onCambioMiembroCrear(ActionEvent e){
+        System.out.println(selector_tipo_izq.getValue().toString());
+        switch (selector_tipo_izq.getValue()){
+            case "Estudiante": habilitarCamposEstudiante(); break;
+            case  "Profesor": habilitarCamposProfesor(); break;
+            case  "Coordinador": habilitarCamposCoordinador(); break;
+            default: AppLogger.LOGGER.log(System.Logger.Level.ERROR, "Miembro UNEDL no valido");
+//            new Alert(Alert.AlertType.ERROR).setContentText("Miembro no valido");
+
+        }
     }
 
-    public void onCrearAlumno(ActionEvent e) {
+    public void onCambioMiembroElimAct(ActionEvent e){
+
+    }
+
+    public void onCrear(ActionEvent e) {
         AppLogger.LOGGER.log(System.Logger.Level.INFO, "creando alumno...");
 
         //region crear alumno
@@ -42,7 +65,7 @@ public class SceneViewController {
         String nombre = nombre_campo.getText();
         String apellido1 = apellido1_campo.getText();
         String apellido2 = apellido2_campo.getText();
-        String email = email_campo.getText();
+        String email =  email_campo.getText();
 
         /*si caulquier campo esta vacio lanzar advertencia*/
         if (nombre.isEmpty() || apellido1.isEmpty() || apellido2.isEmpty() || email.isEmpty()){
@@ -71,24 +94,34 @@ public class SceneViewController {
 
     }
 
-    public void onLimpiarAlumno(ActionEvent e) {
-        AppLogger.LOGGER.log(System.Logger.Level.INFO, "limpiando alumno...");
+    public void onLimpiar(ActionEvent e){
+
     }
 
-    public void onCrearProfesor(ActionEvent e) {
-        AppLogger.LOGGER.log(System.Logger.Level.INFO, "creando profesor...");
+    public void onActualizar(ActionEvent e){
+
     }
 
-    public void onLimpiarProfesor(ActionEvent e) {
-        AppLogger.LOGGER.log(System.Logger.Level.INFO, "limpiando profesor...");
+    public void onEliminar(ActionEvent e){
+
     }
 
-    public void onCrearCoordinador(ActionEvent e) {
-        AppLogger.LOGGER.log(System.Logger.Level.INFO, "creando coordinador...");
+    //auxiliares (tareas repetitivas)
+    private void habilitarCamposEstudiante(){
+        this.matricula_campo.setDisable(false);
+        this.cedula_campo.setDisable(true);
     }
-
-    public void onLimpiarCoordinador(ActionEvent e) {
-        AppLogger.LOGGER.log(System.Logger.Level.INFO, "limpiando coordinador...");
+    private void habilitarCamposProfesor(){
+        this.cedula_campo.setDisable(false);
+        this.matricula_campo.setDisable(true);
+    }
+    private void habilitarCamposCoordinador(){
+        this.cedula_campo.setDisable(false);
+        this.matricula_campo.setDisable(true);
+    }
+    private boolean hayCamposVacios(){
+        //TODO: code empty fields
+        return false;
     }
 
 }
