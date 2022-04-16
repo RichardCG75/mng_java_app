@@ -26,46 +26,46 @@
          <children>
             <VBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="261.0">
                <children>
-                  <ChoiceBox fx:id="selector_tipo_der" onAction="#onCambioMiembroElimAct" prefWidth="150.0" style="-fx-background-radius: 10;" />
+                  <ChoiceBox fx:id="selector_tabla_borrar" onAction="#onCambioTablaBorrar" prefWidth="150.0" style="-fx-background-radius: 10;" />
                   <Separator prefHeight="4.0" prefWidth="195.0" visible="false" />
-                  <ChoiceBox prefWidth="150.0" style="-fx-background-radius: 10;" />
+                  <ChoiceBox fx:id="selector_miembros_borrar" onAction="#onCambioMiembroUNEDL" prefWidth="150.0" style="-fx-background-radius: 10;" />
                   <Separator prefHeight="4.0" prefWidth="261.0" />
                </children>
             </VBox>
             <HBox prefHeight="35.0" prefWidth="195.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="100.0" text="Nombre" />
-                  <TextField style="-fx-background-radius: 10; -fx-text-alignment: center" />
+                  <TextField fx:id="nombre_campo_borrar" style="-fx-background-radius: 10; -fx-text-alignment: center" />
                </children>
             </HBox>
             <HBox prefHeight="35.0" prefWidth="195.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="100.0" text="Apellido 1" />
-                  <TextField style="-fx-background-radius: 10;" />
+                  <TextField fx:id="apellido1_campo_borrar" style="-fx-background-radius: 10;" />
                </children>
             </HBox>
             <HBox layoutX="15.0" layoutY="143.0" prefHeight="35.0" prefWidth="195.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="100.0" text="Apellido 2" />
-                  <TextField style="-fx-background-radius: 10;" />
+                  <TextField fx:id="apellido2_campo_borrar" style="-fx-background-radius: 10;" />
                </children>
             </HBox>
             <HBox layoutX="15.0" layoutY="178.0" prefHeight="35.0" prefWidth="195.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="100.0" text="Matricula" />
-                  <TextField style="-fx-background-radius: 10;" />
+                  <TextField fx:id="matricula_campo_borrar" style="-fx-background-radius: 10;" />
                </children>
             </HBox>
             <HBox layoutX="15.0" layoutY="213.0" prefHeight="35.0" prefWidth="195.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="100.0" text="Cedula" />
-                  <TextField style="-fx-background-radius: 10;" />
+                  <TextField fx:id="cedula_campo_borrar" style="-fx-background-radius: 10;" />
                </children>
             </HBox>
             <HBox prefHeight="17.0" prefWidth="180.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="100.0" text="Email" />
-                  <TextField style="-fx-background-radius: 10;" />
+                  <TextField fx:id="email_campo_borrar" style="-fx-background-radius: 10;" />
                </children>
             </HBox>
             <HBox alignment="TOP_RIGHT" prefHeight="12.0" prefWidth="260.0">
@@ -88,16 +88,15 @@
          <children>
             <VBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="261.0">
                <children>
-                  <ChoiceBox fx:id="selector_tipo_izq" onAction="#onCambioMiembroCrear" prefWidth="150.0" style="-fx-background-radius: 10;" />
+                  <ChoiceBox fx:id="selector_tabla_crear" onAction="#onCambioTablaCrear" prefWidth="150.0" style="-fx-background-radius: 10;" />
                   <Separator prefHeight="4.0" prefWidth="195.0" visible="false" />
-                  <ChoiceBox prefWidth="150.0" style="-fx-background-radius: 10;" />
                   <Separator prefHeight="4.0" prefWidth="261.0" />
                </children>
             </VBox>
             <HBox prefHeight="17.0" prefWidth="180.0">
                <children>
                   <Label prefHeight="28.0" prefWidth="100.0" text="Nombre" />
-                  <TextField fx:id="nombre_campo" style="-fx-background-radius: 10;" />
+                  <TextField fx:id="nombre_campo_crear" style="-fx-background-radius: 10;" />
                </children>
                <padding>
                   <Insets left="5.0" right="5.0" top="5.0" />
@@ -106,7 +105,7 @@
             <HBox prefHeight="17.0" prefWidth="180.0">
                <children>
                   <Label prefHeight="28.0" prefWidth="100.0" text="Apellido 1" />
-                  <TextField fx:id="apellido1_campo" style="-fx-background-radius: 10;" />
+                  <TextField fx:id="apellido1_campo_crear" style="-fx-background-radius: 10;" />
                </children>
                <padding>
                   <Insets left="5.0" right="5.0" top="5.0" />
@@ -115,7 +114,7 @@
             <HBox prefHeight="17.0" prefWidth="180.0">
                <children>
                   <Label prefHeight="28.0" prefWidth="100.0" text="Apellido 2" />
-                  <TextField fx:id="apellido2_campo" style="-fx-background-radius: 10;" />
+                  <TextField fx:id="apellido2_campo_crear" style="-fx-background-radius: 10;" />
                </children>
                <padding>
                   <Insets left="5.0" right="5.0" top="5.0" />
@@ -124,7 +123,7 @@
             <HBox layoutX="15.0" layoutY="166.0" prefHeight="17.0" prefWidth="180.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="100.0" text="Matricula" />
-                  <TextField fx:id="matricula_campo" style="-fx-background-radius: 10;" />
+                  <TextField fx:id="matricula_campo_crear" style="-fx-background-radius: 10;" />
                </children>
                <padding>
                   <Insets left="5.0" right="5.0" top="5.0" />
@@ -133,7 +132,7 @@
             <HBox layoutX="15.0" layoutY="166.0" prefHeight="17.0" prefWidth="180.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="100.0" text="Cedula" />
-                  <TextField fx:id="cedula_campo" style="-fx-background-radius: 10;" />
+                  <TextField fx:id="cedula_campo_crear" style="-fx-background-radius: 10;" />
                </children>
                <padding>
                   <Insets left="5.0" right="5.0" top="5.0" />
@@ -142,7 +141,7 @@
             <HBox prefHeight="17.0" prefWidth="180.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="100.0" text="Email" />
-                  <TextField fx:id="email_campo" style="-fx-background-radius: 10;" />
+                  <TextField fx:id="email_campo_crear" style="-fx-background-radius: 10;" />
                </children>
                <padding>
                   <Insets left="5.0" right="5.0" top="5.0" />
