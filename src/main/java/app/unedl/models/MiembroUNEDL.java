@@ -34,6 +34,11 @@ public class MiembroUNEDL {
     public void establecerEmail(String email){ this.email.set(email); }
     public String obtenerEmail(){ return this.email.get(); }
     public StringProperty obtenerEmailProperty(){ return this.email; }
+    public void establecerRegistro(String registro){
+        this.registro.set(registro);
+    }
+    public String obtenerRegistro(){ return this.registro.get(); }
+    public StringProperty obtenerRegistroProperty(){ return this.registro; }
 
     public enum APELLIDO{PATERNO, MATERNO};
     private IntegerProperty id = new SimpleIntegerProperty();
@@ -41,6 +46,7 @@ public class MiembroUNEDL {
     private StringProperty apellido1 = new SimpleStringProperty();
     private StringProperty apellido2 = new SimpleStringProperty();
     private StringProperty email = new SimpleStringProperty();
+    private StringProperty registro = new SimpleStringProperty();
     private StringProperty fechaAlta = new SimpleStringProperty();
     private StringProperty fechaBaja = new SimpleStringProperty();
     private Horarios[] horarios;

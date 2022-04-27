@@ -26,9 +26,9 @@
          <children>
             <VBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="261.0">
                <children>
-                  <ChoiceBox fx:id="selector_tabla_borrar" onAction="#onCambioTablaBorrar" prefWidth="150.0" style="-fx-background-radius: 10;" />
+                  <ChoiceBox fx:id="selector_tabla_borrar" onAction="#onSeleccionarTablaBorrar" prefWidth="200.0" style="-fx-background-radius: 10;" />
                   <Separator prefHeight="4.0" prefWidth="195.0" visible="false" />
-                  <ChoiceBox fx:id="selector_miembros_borrar" onAction="#onCambioMiembroUNEDL" prefWidth="150.0" style="-fx-background-radius: 10;" />
+                  <ChoiceBox fx:id="selector_miembros_borrar" onAction="#onSeleccionarMiembroUNEDL" prefWidth="200.0" style="-fx-background-radius: 10;" />
                   <Separator prefHeight="4.0" prefWidth="261.0" />
                </children>
             </VBox>
@@ -88,7 +88,7 @@
          <children>
             <VBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="261.0">
                <children>
-                  <ChoiceBox fx:id="selector_tabla_crear" onAction="#onCambioTablaCrear" prefWidth="150.0" style="-fx-background-radius: 10;" />
+                  <ChoiceBox fx:id="selector_tabla_crear" onAction="#onSeleccionarTablaCrear" prefWidth="150.0" style="-fx-background-radius: 10;" />
                   <Separator prefHeight="4.0" prefWidth="195.0" visible="false" />
                   <Separator prefHeight="4.0" prefWidth="261.0" />
                </children>

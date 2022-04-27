@@ -33,7 +33,7 @@ public class ConexionBD {
 
     //TODO: obtener credenciales de archivo xml o txt
     private static Connection conexion;
-    private static final String jdbcURL = "jdbc:mysql://54.215.148.52:3306/sql3485197";
-    private static final String usuario = "sql3485197";
-    private static final String clave = "RXHirfk9vP";
+    private static final String jdbcURL = "jdbc:mysql://54.215.148.52:3306/sql3488439";
+    private static final String usuario = "sql3488439";
+    private static final String clave = "PnIhHiSUqj";
 }

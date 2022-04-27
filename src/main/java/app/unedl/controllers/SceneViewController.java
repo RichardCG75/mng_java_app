@@ -6,8 +6,6 @@ import app.unedl.models.MiembroUNEDL;
 import app.unedl.models.Profesor;
 import app.unedl.utils.AppLogger;
 import app.unedl.utils.ConexionBD;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -26,7 +24,6 @@ public class SceneViewController {
     @FXML private TextField cedula_campo_crear;
     @FXML private TextField email_campo_crear;
     @FXML private ChoiceBox<String> selector_tabla_crear;
-
     @FXML private TextField nombre_campo_borrar;
     @FXML private TextField apellido1_campo_borrar;
     @FXML private TextField apellido2_campo_borrar;
@@ -68,7 +65,7 @@ public class SceneViewController {
 
     }
 
-    public void onCambioTablaCrear(ActionEvent e){
+    public void onSeleccionarTablaCrear(ActionEvent e){
 
         switch (selector_tabla_crear.getValue()){
             case "Estudiante": habilitarCamposEstudiante(); break;
@@ -81,19 +78,25 @@ public class SceneViewController {
         }
     }
 
-    public void onCambioTablaBorrar(ActionEvent e){
-
+    public void onSeleccionarTablaBorrar(ActionEvent e){
+        this.habilitarRegistrosBorrar();
         this.rellenarSelectorMiembros();
 
     }
 
-    public void onCambioMiembroUNEDL(){
+    private void habilitarRegistrosBorrar() {
+        switch (this.selector_tabla_borrar.getValue()){
+            case "Estudiante": {this.cedula_campo_borrar.setDisable(true); this.matricula_campo_borrar.setDisable(false);}
+            break;
+            case "Profesor", "Coordinador": {this.cedula_campo_borrar.setDisable(false); this.matricula_campo_borrar.setDisable(true);}
+            break;
+        }
+    }
 
-        if (selector_tabla_borrar.getValue() == "Estudiante") asignarValoresAlModelo(this.estudianteModel);
-        if (selector_tabla_borrar.getValue() == "Profesor") asignarValoresAlModelo(this.profesorModel);
-        if (selector_tabla_borrar.getValue() == "Coordinador") asignarValoresAlModelo(this.coordinadorModel);
+    public void onSeleccionarMiembroUNEDL(){
 
-//        this.enlazarProperties();
+        this.asignarValoresAlModelo(this.miembroUNEDL);
+        this.enlazarProperties();
 
     }
 
@@ -114,15 +117,7 @@ public class SceneViewController {
         /* si no hay campos vacios -> obtener datos de formulario e insertar*/
         else {
             Hashtable<String, String> datos = recuperarDatosFormularioCrear();
-            switch (selector_tabla_crear.getValue()){
-                case "Estudiante": insertarMiembroUNEDL(datos.get("nombre"), datos.get("apellido1"), datos.get("apellido2"), datos.get("matricula"), datos.get("email"));
-                    break;
-                case "Profesor": insertarMiembroUNEDL(datos.get("nombre"), datos.get("apellido1"), datos.get("apellido2"), datos.get("cedula"), datos.get("email"));
-                    break;
-                case "Coordinador": insertarMiembroUNEDL(datos.get("nombre"), datos.get("apellido1"), datos.get("apellido2"), datos.get("cedula"), datos.get("email"));
-                    break;
-            }
-            //Ejm: Estudiante Juan creado con exito...
+            this.insertarMiembroUNEDL(datos.get("nombre"), datos.get("apellido1"), datos.get("apellido2"), datos.get("registro"), datos.get("email"));
             AppLogger.LOGGER.log(System.Logger.Level.INFO, selector_miembros_borrar.getValue() + datos.get("nombre") + " creado con exito...");
         }
 
@@ -146,8 +141,7 @@ public class SceneViewController {
 
             /* la tabla y columna son asignados a la sentencia sql dependiendo de la opcion seleccionada en el choicebox */
             String tabla = this.saberTablaDestino(selector_tabla_crear);
-            String columna = this.saberRegistroDestino(selector_tabla_crear);
-            String query = "INSERT INTO " + tabla + " (nombre, apellido1, apellido2, " + columna + ", email) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO " + tabla + " (nombre, apellido1, apellido2, registro, email) VALUES (?, ?, ?, ?, ?)";
 
             /* prepara y ejecuta la sentencia sql */
             PreparedStatement statement = conexion.prepareStatement(query);
@@ -184,12 +178,13 @@ public class SceneViewController {
         Hashtable<String, String> datos = new Hashtable<String, String>();
 
         /*obtener datos de la vista*/
-        datos.put("nombre", nombre_campo_crear.getText());
-        datos.put("apellido1", apellido1_campo_crear.getText());
-        datos.put("apellido2", apellido2_campo_crear.getText());
-        datos.put("matricula", matricula_campo_crear.getText());
-        datos.put("cedula", cedula_campo_crear.getText());
-        datos.put("email", email_campo_crear.getText());
+        datos.put("nombre", this.nombre_campo_crear.getText());
+        datos.put("apellido1", this.apellido1_campo_crear.getText());
+        datos.put("apellido2", this.apellido2_campo_crear.getText());
+        if (this.selector_tabla_crear.getValue() == "Estudiante") datos.put("registro", this.matricula_campo_crear.getText());
+        if (this.selector_tabla_crear.getValue() == "Profesor") datos.put("registro", this.cedula_campo_crear.getText());
+        if (this.selector_tabla_crear.getValue() == "Coordinador") datos.put("registro", this.cedula_campo_crear.getText());
+        datos.put("email", this.email_campo_crear.getText());
 
         return datos;
     }
@@ -215,28 +210,22 @@ public class SceneViewController {
         return false;
     }
     private void enlazarProperties(){
+
         //region unir_vista_modelo
-        switch (selector_tabla_borrar.getValue()){
-            case "Estudiante":
-                nombre_campo_borrar.textProperty().bind(estudianteModel.obtenerNombreProperty());
-                apellido1_campo_borrar.textProperty().bind(estudianteModel.obtenerApellidoProperty(MiembroUNEDL.APELLIDO.PATERNO));
-                apellido2_campo_borrar.textProperty().bind(estudianteModel.obtenerApellidoProperty(MiembroUNEDL.APELLIDO.MATERNO));
-                matricula_campo_borrar.textProperty().bind(estudianteModel.obtenerMatriculaProperty());
-                email_campo_borrar.textProperty().bind(estudianteModel.obtenerEmailProperty());
-                break;
-            case "Profesor" :
-                nombre_campo_borrar.textProperty().bind(profesorModel.obtenerNombreProperty());
-                apellido1_campo_borrar.textProperty().bind(profesorModel.obtenerApellidoProperty(MiembroUNEDL.APELLIDO.PATERNO));
-                apellido2_campo_borrar.textProperty().bind(profesorModel.obtenerApellidoProperty(MiembroUNEDL.APELLIDO.MATERNO));
-                cedula_campo_borrar.textProperty().bind(profesorModel.obtenerCedulaProperty());
-                email_campo_borrar.textProperty().bind(profesorModel.obtenerEmailProperty());
-            case "Coordinador" :
-                nombre_campo_borrar.textProperty().bind(coordinadorModel.obtenerNombreProperty());
-                apellido1_campo_borrar.textProperty().bind(coordinadorModel.obtenerApellidoProperty(MiembroUNEDL.APELLIDO.PATERNO));
-                apellido2_campo_borrar.textProperty().bind(coordinadorModel.obtenerApellidoProperty(MiembroUNEDL.APELLIDO.MATERNO));
-                cedula_campo_borrar.textProperty().bind(coordinadorModel.obtenerCedulaProperty());
-                email_campo_borrar.textProperty().bind(coordinadorModel.obtenerEmailProperty());
+        this.nombre_campo_borrar.textProperty().bind(this.miembroUNEDL.obtenerNombreProperty());
+        this.apellido1_campo_borrar.textProperty().bind(this.miembroUNEDL.obtenerApellidoProperty(MiembroUNEDL.APELLIDO.PATERNO));
+        this.apellido2_campo_borrar.textProperty().bind(this.miembroUNEDL.obtenerApellidoProperty(MiembroUNEDL.APELLIDO.MATERNO));
+        if (this.selector_tabla_borrar.getValue() == "Estudiante") {
+            this.cedula_campo_borrar.textProperty().unbind();
+            this.cedula_campo_borrar.setText("");
+            this.matricula_campo_borrar.textProperty().bind(this.miembroUNEDL.obtenerRegistroProperty());
         }
+        if (this.selector_tabla_borrar.getValue() == "Profesor" || this.selector_tabla_borrar.getValue() == "Coordinador") {
+            this.matricula_campo_borrar.textProperty().unbind();
+            this.matricula_campo_borrar.setText("");
+            this.cedula_campo_borrar.textProperty().bind(this.miembroUNEDL.obtenerRegistroProperty());
+        }
+        this.email_campo_borrar.textProperty().bind(this.miembroUNEDL.obtenerEmailProperty());
         //endregion
     }
     private void asignarValoresAlModelo(MiembroUNEDL miembroModel){
@@ -244,26 +233,25 @@ public class SceneViewController {
         AppLogger.LOGGER.log(System.Logger.Level.INFO, "Asignando valores al modelo");
         Hashtable<String, String> datos = new Hashtable<>();
         ResultSet resultSet = consultarMiembroSeleccionado();
+        String registro = this.saberRegistroDestino(this.selector_tabla_borrar);
 
         try {
             //guardar en datos
             while (resultSet.next()){
 
                 datos.put("nombre", resultSet.getString("nombre"));
-                datos.put("apellido", resultSet.getString("apellido1"));
+                datos.put("apellido1", resultSet.getString("apellido1"));
+                datos.put("apellido2", resultSet.getString("apellido2"));
+                datos.put("registro", resultSet.getString("registro"));
+                datos.put("email", resultSet.getString("email"));
                 datos.put("id", resultSet.getString("id"));
-
-                if (miembroModel.getClass() == Estudiante.class) datos.put("matricula", "matricula");
-                if (miembroModel.getClass() == Profesor.class) datos.put("cedula", "cedula");
-                if (miembroModel.getClass() == Coordinador.class) datos.put("cedula", "cedula");
             }
 
             miembroModel.establecerNombre(datos.get("nombre"));
             miembroModel.establecerApellido(datos.get("apellido1"), MiembroUNEDL.APELLIDO.PATERNO);
             miembroModel.establecerApellido(datos.get("apellido2"), MiembroUNEDL.APELLIDO.MATERNO);
-            if (miembroModel.getClass() == Estudiante.class) ((Estudiante) miembroModel).establecerMatricula(datos.get("matricula"));
-            if (miembroModel.getClass() == Profesor.class) ((Profesor) miembroModel).establecerCedula(datos.get("cedula"));
-            if (miembroModel.getClass() == Coordinador.class) ((Coordinador) miembroModel).establecerCedula(datos.get("cedula"));
+            miembroModel.establecerRegistro(datos.get("registro"));
+            miembroModel.establecerId(Integer.parseInt(datos.get("id")));
             miembroModel.establecerEmail(datos.get("email"));
         } catch (SQLException e) {
 
@@ -287,7 +275,7 @@ public class SceneViewController {
 
             //preparar sentencia
             String tabla = this.saberTablaDestino(selector_tabla_borrar);
-            String registro = this.saberRegistroDestino(selector_tabla_borrar);
+//            String registro = this.saberRegistroDestino(selector_tabla_borrar);
             String query = "SELECT * FROM " + tabla;
             Statement statement = conexion.createStatement();
 
@@ -296,27 +284,17 @@ public class SceneViewController {
             ResultSet resultSet = statement.executeQuery(query);
             AppLogger.LOGGER.log(System.Logger.Level.INFO, "Sentencia SQL ejecutada con exito");
 
-            //si la tabla esta vacia
-//            if (resultSet.next() == false){
-//                selector_miembros_borrar.setValue(null);
-//                AppLogger.LOGGER.log(System.Logger.Level.WARNING, "No existen miembros en tabla " + tabla);
-//            }
-//
-//            //llenar choicebox con datos de ResultSet
-//            else {
-//
-//
-//            }
+            boolean f = false;
 
             while (resultSet.next()){
                 Hashtable<String, String> datos = new Hashtable<>();
                 datos.put("nombre", resultSet.getString("nombre"));
                 datos.put("apellido", resultSet.getString("apellido1"));
                 datos.put("id", resultSet.getString("id"));
-                datos.put(registro, resultSet.getString(registro));
+                datos.put("registro", resultSet.getString("registro"));
 
                 selector_miembros_borrar.getItems().add(datos);
-                selector_miembros_borrar.setValue(datos);
+                if (!f) {selector_miembros_borrar.setValue(datos); f = true; }
             }
 
         } catch (SQLException ex) {
