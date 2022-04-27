@@ -97,7 +97,6 @@ public class SceneViewController {
 
         this.asignarValoresAlModelo(this.miembroUNEDL);
         this.enlazarProperties();
-
     }
 
     public void onCrear(ActionEvent e) {
@@ -130,11 +129,28 @@ public class SceneViewController {
 
     public void onActualizar(ActionEvent e){
 
+        Hashtable<String, String> datos = this.recuperarDatosFormularioBorrar();
+        this.actualizarMiembro(datos);
+        this.rellenarSelectorMiembros();
+
+//        System.out.println(nombre);
+//        System.out.println(apellido1);
+//        System.out.println(apellido2);
+//        System.out.println(matricula);
+//        System.out.println(cedula);
+//        System.out.println(email);
+//        System.out.println(id);
+
+
+
+        AppLogger.LOGGER.log(System.Logger.Level.INFO, "Actualizando...");
     }
 
     public void onEliminar(ActionEvent e){
-
+        AppLogger.LOGGER.log(System.Logger.Level.INFO, "Eliminando...");
     }
+
+    //TODO: recibe hastable
     private void insertarMiembroUNEDL(String nombre, String apellido1, String apellido2, String registro, String email) {
 
         try {
@@ -161,7 +177,7 @@ public class SceneViewController {
         }
     }
 
-    //auxiliares (tareas repetitivas)
+    //auxiliares (subrutinas)
     private void habilitarCamposEstudiante(){
         this.matricula_campo_crear.setDisable(false);
         this.cedula_campo_crear.setDisable(true);
@@ -212,20 +228,20 @@ public class SceneViewController {
     private void enlazarProperties(){
 
         //region unir_vista_modelo
-        this.nombre_campo_borrar.textProperty().bind(this.miembroUNEDL.obtenerNombreProperty());
-        this.apellido1_campo_borrar.textProperty().bind(this.miembroUNEDL.obtenerApellidoProperty(MiembroUNEDL.APELLIDO.PATERNO));
-        this.apellido2_campo_borrar.textProperty().bind(this.miembroUNEDL.obtenerApellidoProperty(MiembroUNEDL.APELLIDO.MATERNO));
+        this.nombre_campo_borrar.textProperty().bindBidirectional(this.miembroUNEDL.obtenerNombreProperty());
+        this.apellido1_campo_borrar.textProperty().bindBidirectional(this.miembroUNEDL.obtenerApellidoProperty(MiembroUNEDL.APELLIDO.PATERNO));
+        this.apellido2_campo_borrar.textProperty().bindBidirectional(this.miembroUNEDL.obtenerApellidoProperty(MiembroUNEDL.APELLIDO.MATERNO));
         if (this.selector_tabla_borrar.getValue() == "Estudiante") {
-            this.cedula_campo_borrar.textProperty().unbind();
+            this.cedula_campo_borrar.textProperty().unbindBidirectional(this.miembroUNEDL.obtenerRegistroProperty());
             this.cedula_campo_borrar.setText("");
-            this.matricula_campo_borrar.textProperty().bind(this.miembroUNEDL.obtenerRegistroProperty());
+            this.matricula_campo_borrar.textProperty().bindBidirectional(this.miembroUNEDL.obtenerRegistroProperty());
         }
         if (this.selector_tabla_borrar.getValue() == "Profesor" || this.selector_tabla_borrar.getValue() == "Coordinador") {
-            this.matricula_campo_borrar.textProperty().unbind();
+            this.matricula_campo_borrar.textProperty().unbindBidirectional(this.miembroUNEDL.obtenerRegistroProperty());
             this.matricula_campo_borrar.setText("");
-            this.cedula_campo_borrar.textProperty().bind(this.miembroUNEDL.obtenerRegistroProperty());
+            this.cedula_campo_borrar.textProperty().bindBidirectional(this.miembroUNEDL.obtenerRegistroProperty());
         }
-        this.email_campo_borrar.textProperty().bind(this.miembroUNEDL.obtenerEmailProperty());
+        this.email_campo_borrar.textProperty().bindBidirectional(this.miembroUNEDL.obtenerEmailProperty());
         //endregion
     }
     private void asignarValoresAlModelo(MiembroUNEDL miembroModel){
@@ -324,6 +340,41 @@ public class SceneViewController {
             AppLogger.LOGGER.log(System.Logger.Level.ERROR, "Error ejecutando la sentencia SQL");
             e.printStackTrace();
             return null;
+        }
+    }
+    private Hashtable<String, String> recuperarDatosFormularioBorrar(){
+
+        Hashtable<String, String> datos = new Hashtable<>();
+        datos.put("id", this.selector_miembros_borrar.getValue().get("id"));
+        datos.put("nombre", this.nombre_campo_borrar.getText());
+        datos.put("apellido1", this.apellido1_campo_borrar.getText());
+        datos.put("apellido2", this.apellido2_campo_borrar.getText());
+        if (this.selector_tabla_borrar.getValue() == "Estudiante") datos.put("registro", this.matricula_campo_borrar.getText());
+        if (this.selector_tabla_borrar.getValue() == "Profesor") datos.put("registro", this.cedula_campo_borrar.getText());
+        if (this.selector_tabla_borrar.getValue() == "Coordinador") datos.put("registro", this.cedula_campo_borrar.getText());
+        datos.put("email", this.email_campo_borrar.getText());
+
+        return datos;
+    }
+    private void actualizarMiembro(Hashtable<String, String> datos){
+
+        String tabla = this.saberTablaDestino(this.selector_tabla_borrar);
+        String query = "UPDATE " + tabla + " SET nombre=?, apellido1=?, apellido2=?, registro=?, email=? WHERE id=?;";
+
+        try {
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setString(1, datos.get("nombre"));
+            statement.setString(2, datos.get("apellido1"));
+            statement.setString(3, datos.get("apellido2"));
+            statement.setString(4, datos.get("registro"));
+            statement.setString(5, datos.get("email"));
+            statement.setString(6, datos.get("id"));
+
+            AppLogger.LOGGER.log(System.Logger.Level.INFO, "Ejecutando sentencia " + statement);
+            statement.execute();
+        } catch (SQLException e) {
+            AppLogger.LOGGER.log(System.Logger.Level.ERROR, "Error ejecutando sentencia SQL");
+            e.printStackTrace();
         }
     }
 
