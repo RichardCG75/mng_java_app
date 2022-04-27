@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -11,13 +15,18 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.unedl.controllers.SceneViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.unedl.controllers.SceneViewController">
    <top>
       <HBox alignment="CENTER" prefHeight="16.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <ChoiceBox prefWidth="150.0" style="-fx-background-radius: 10;" />
+            <ChoiceBox fx:id="selector_buscar" prefWidth="150.0" style="-fx-background-radius: 10;" />
             <Separator orientation="VERTICAL" prefHeight="36.0" prefWidth="10.0" />
-            <TextField promptText="buscar..." style="-fx-background-radius: 10;" />
+            <TextField fx:id="campo_buscar" promptText="buscar..." style="-fx-background-radius: 10;" />
+            <Button fx:id="boton_buscar" mnemonicParsing="false" onAction="#onBuscar" prefHeight="29.0" prefWidth="75.0" style="-fx-background-radius: 10;" text="Buscar">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Button>
          </children>
       </HBox>
    </top>

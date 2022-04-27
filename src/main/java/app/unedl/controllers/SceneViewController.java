@@ -9,8 +9,10 @@ import app.unedl.utils.ConexionBD;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import org.controlsfx.control.action.Action;
 
 import java.sql.*;
 import java.util.Hashtable;
@@ -32,6 +34,9 @@ public class SceneViewController {
     @FXML private TextField email_campo_borrar;
     @FXML private ChoiceBox<String> selector_tabla_borrar;
     @FXML private ChoiceBox<Hashtable<String, String>> selector_miembros_borrar;
+    @FXML private ChoiceBox<String> selector_buscar;
+    @FXML private TextField campo_buscar;
+    @FXML private Button boton_buscar;
 
     private Connection conexion;
     private TextField[] campos_crear;
@@ -56,10 +61,16 @@ public class SceneViewController {
         //endregion
 
         //region iniciar_selectores
-        selector_tabla_crear.getItems().addAll("Estudiante", "Profesor", "Coordinador");
-        selector_tabla_crear.setValue("Estudiante");
-        selector_tabla_borrar.getItems().addAll("Estudiante", "Profesor", "Coordinador");
-        selector_tabla_borrar.setValue("Estudiante");
+
+        //selectores crear/borrar
+        this.selector_tabla_crear.getItems().addAll("Estudiante", "Profesor", "Coordinador");
+        this.selector_tabla_crear.setValue("Estudiante");
+        this.selector_tabla_borrar.getItems().addAll("Estudiante", "Profesor", "Coordinador");
+        this.selector_tabla_borrar.setValue("Estudiante");
+
+        //selector buscar
+        this.selector_buscar.getItems().addAll("id", "nombre", "apellido1", "apellido2", "registro", "email");
+        this.selector_buscar.setValue("id");
 
         //endregion
 
@@ -147,7 +158,30 @@ public class SceneViewController {
     }
 
     public void onEliminar(ActionEvent e){
-        AppLogger.LOGGER.log(System.Logger.Level.INFO, "Eliminando...");
+        AppLogger.LOGGER.log(System.Logger.Level.INFO, "Eliminando " + this.selector_tabla_borrar.getValue());
+        String tabla = this.saberTablaDestino(this.selector_tabla_borrar);
+        String id = this.selector_miembros_borrar.getValue().get("id");
+        String query = "DELETE FROM " + tabla + " WHERE id=?;";
+
+        try {
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setString(1, id);
+
+            AppLogger.LOGGER.log(System.Logger.Level.INFO, "Ejecutando sentencia SQL " + statement);
+            statement.execute();
+        } catch (SQLException ex) {
+            AppLogger.LOGGER.log(System.Logger.Level.ERROR, "Error ejecutando sentencia SQL");
+            ex.printStackTrace();
+        }
+
+        AppLogger.LOGGER.log(System.Logger.Level.INFO, "Sentencia SQL ejecutada con exito");
+        this.rellenarSelectorMiembros();
+
+    }
+
+    public void onBuscar(ActionEvent e){
+        AppLogger.LOGGER.log(System.Logger.Level.INFO, "Buscando...");
+
     }
 
     //TODO: recibe hastable
@@ -249,7 +283,6 @@ public class SceneViewController {
         AppLogger.LOGGER.log(System.Logger.Level.INFO, "Asignando valores al modelo");
         Hashtable<String, String> datos = new Hashtable<>();
         ResultSet resultSet = consultarMiembroSeleccionado();
-        String registro = this.saberRegistroDestino(this.selector_tabla_borrar);
 
         try {
             //guardar en datos
