@@ -8,14 +8,11 @@ import app.unedl.utils.AppLogger;
 import app.unedl.utils.ConexionBD;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
-import org.controlsfx.control.action.Action;
+import javafx.scene.control.*;
 
 import java.sql.*;
 import java.util.Hashtable;
+import java.util.Optional;
 
 public class SceneViewController {
 
@@ -37,6 +34,7 @@ public class SceneViewController {
     @FXML private ChoiceBox<String> selector_buscar;
     @FXML private TextField campo_buscar;
     @FXML private Button boton_buscar;
+    @FXML private TextArea campo_area;
 
     private Connection conexion;
     private TextField[] campos_crear;
@@ -58,6 +56,7 @@ public class SceneViewController {
         //region inicializar_campos
         conexion = ConexionBD.obtenerConexion();
         campos_crear = new TextField[]{nombre_campo_crear, apellido1_campo_crear, apellido2_campo_crear, matricula_campo_crear, cedula_campo_crear, email_campo_crear};
+        campos_borrar = new TextField[]{nombre_campo_borrar, apellido1_campo_borrar, apellido2_campo_borrar, matricula_campo_borrar, cedula_campo_borrar, email_campo_borrar};
         //endregion
 
         //region iniciar_selectores
@@ -92,7 +91,6 @@ public class SceneViewController {
     public void onSeleccionarTablaBorrar(ActionEvent e){
         this.habilitarRegistrosBorrar();
         this.rellenarSelectorMiembros();
-
     }
 
     private void habilitarRegistrosBorrar() {
@@ -136,23 +134,29 @@ public class SceneViewController {
 
     public void onLimpiar(ActionEvent e){
 
+        AppLogger.LOGGER.log(System.Logger.Level.INFO, "Limpiando formulario...");
+
+        for (TextField campo : this.campos_crear) {
+            campo.setText("");
+        }
+
+        AppLogger.LOGGER.log(System.Logger.Level.INFO, "...Formulario limpiado");
     }
 
     public void onActualizar(ActionEvent e){
 
+        if (hayCamposBorrarVacios()){
+            AppLogger.LOGGER.log(System.Logger.Level.WARNING, "Hay campos vacios");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText("Hay campos vacios!\nDesea continuar?");
+            Optional<ButtonType> result = alert.showAndWait();
+            ButtonType r = result.get();
+            if (r == ButtonType.CANCEL || r == ButtonType.CLOSE || r == ButtonType.NO || r == ButtonType.FINISH) return;
+        }
+
         Hashtable<String, String> datos = this.recuperarDatosFormularioBorrar();
         this.actualizarMiembro(datos);
         this.rellenarSelectorMiembros();
-
-//        System.out.println(nombre);
-//        System.out.println(apellido1);
-//        System.out.println(apellido2);
-//        System.out.println(matricula);
-//        System.out.println(cedula);
-//        System.out.println(email);
-//        System.out.println(id);
-
-
 
         AppLogger.LOGGER.log(System.Logger.Level.INFO, "Actualizando...");
     }
@@ -181,10 +185,21 @@ public class SceneViewController {
 
     public void onBuscar(ActionEvent e){
         AppLogger.LOGGER.log(System.Logger.Level.INFO, "Buscando...");
+        ResultSet resultSetEstudiantes = this.buscarEnTabla("estudiantes", this.selector_buscar.getValue(), this.campo_buscar.getText());
+        ResultSet resultSetProfesores = this.buscarEnTabla("profesores", this.selector_buscar.getValue(), this.campo_buscar.getText());
+        ResultSet resultSetCoordinadores = this.buscarEnTabla("coordinadores", this.selector_buscar.getValue(), this.campo_buscar.getText());
+
+        //limpiar campo
+        this.campo_area.clear();
+
+        this.desplegarResultSetEnInterfaz(resultSetEstudiantes);
+        this.desplegarResultSetEnInterfaz(resultSetProfesores);
+        this.desplegarResultSetEnInterfaz(resultSetCoordinadores);
+
 
     }
 
-    //TODO: recibe hastable
+    //TODO: recibe hashtable
     private void insertarMiembroUNEDL(String nombre, String apellido1, String apellido2, String registro, String email) {
 
         try {
@@ -410,5 +425,54 @@ public class SceneViewController {
             e.printStackTrace();
         }
     }
+    private ResultSet buscarEnTabla(String tabla, String clave, String valor){
 
+        AppLogger.LOGGER.log(System.Logger.Level.INFO, "Buscando " + tabla);
+        String query = "SELECT * FROM " + tabla + " WHERE " + clave + "=?;";
+        try {
+            PreparedStatement statement = conexion.prepareStatement(query);
+            statement.setString(1, valor);
+
+            AppLogger.LOGGER.log(System.Logger.Level.INFO, "Ejecutando sentencia SQL " + statement);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet;
+        } catch (SQLException e) {
+            AppLogger.LOGGER.log(System.Logger.Level.INFO, "Error ejecutando sentencia SQL");
+            e.printStackTrace();
+            return null;
+        }
+    }
+    private void desplegarResultSetEnInterfaz(ResultSet resultSet){
+
+        try {
+
+            int i = 1;
+            while (resultSet.next()){
+                Hashtable<String, String> datos = new Hashtable<>();
+
+                datos.put("id", resultSet.getString("id"));
+                datos.put("nombre", resultSet.getString("nombre"));
+                datos.put("apellido1", resultSet.getString("apellido1"));
+                datos.put("apellido2", resultSet.getString("apellido2"));
+                datos.put("registro", resultSet.getString("registro"));
+                datos.put("email", resultSet.getString("email"));
+
+                this.campo_area.appendText(datos.toString());
+                this.campo_area.appendText("\n");
+            }
+
+        } catch (Exception ex){
+
+        }
+    }
+    private boolean hayCamposBorrarVacios(){
+
+        boolean f = false;
+
+        for (TextField campo : this.campos_borrar) {
+            f = campo.getText().isEmpty() ? true : false;
+        }
+
+        return f;
+    }
 }

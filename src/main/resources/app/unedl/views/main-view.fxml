@@ -90,7 +90,7 @@
          </padding></VBox>
    </right>
    <center>
-      <TextArea prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <TextArea fx:id="campo_area" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
    <left>
       <VBox prefHeight="574.0" prefWidth="281.0" BorderPane.alignment="CENTER">
