@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.unedl.controllers.Login">
+   <children>
+      <HBox alignment="TOP_CENTER" prefHeight="122.0" prefWidth="600.0">
+         <children>
+            <Label prefHeight="28.0" prefWidth="100.0" text="User" />
+            <TextField fx:id="usr_field" promptText="user name" style="-fx-background-radius: 10;" />
+         </children>
+         <padding>
+            <Insets left="5.0" right="5.0" top="150.0" />
+         </padding>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </HBox>
+      <HBox alignment="TOP_CENTER" prefHeight="80.0" prefWidth="600.0">
+         <children>
+            <Label prefHeight="28.0" prefWidth="100.0" text="Pass" />
+            <PasswordField fx:id="pass_field" promptText="password" style="-fx-background-radius: 10;" />
+         </children>
+         <padding>
+            <Insets left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="TOP_CENTER" prefHeight="80.0" prefWidth="600.0">
+         <children>
+            <Separator orientation="VERTICAL" prefHeight="100.0" prefWidth="210.0" visible="false" />
+            <Button fx:id="login_btn" mnemonicParsing="false" onAction="#onLoginClicked" style="-fx-background-radius: 10;" text="Login">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>

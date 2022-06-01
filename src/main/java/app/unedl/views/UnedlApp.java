@@ -12,9 +12,9 @@ public class UnedlApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(UnedlApp.class.getResource("main-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(UnedlApp.class.getResource("login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("UNEDL Manager!");
+        stage.setTitle("UNEDL Login!");
         stage.setScene(scene);
         stage.show();
     }

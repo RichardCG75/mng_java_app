@@ -14,7 +14,7 @@ import java.sql.*;
 import java.util.Hashtable;
 import java.util.Optional;
 
-public class SceneViewController {
+public class ManagerScene {
 
     @FXML private TextField nombre_campo_crear;
     @FXML private TextField apellido1_campo_crear;
