@@ -2,11 +2,11 @@
 
 <class>
 
-    <jdbc></jdbc>
-    <host></host>
-    <user></user>
-    <pass></pass>
-    <port></port>
-    <db_name></db_name>
+    <jdbc>jdbc:mysql</jdbc>
+    <host>unedlapp.cbxkhf0nnehu.us-west-1.rds.amazonaws.com</host>
+    <user>admin</user>
+    <pass>Guitar.7225</pass>
+    <port>3306</port>
+    <db_name>unedlApp</db_name>
 
 </class>

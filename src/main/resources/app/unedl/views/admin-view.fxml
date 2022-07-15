@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<<<<<<< HEAD
+=======
+<?import javafx.scene.*?>
+>>>>>>> exp
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -15,6 +19,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<<<<<<< HEAD
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.unedl.controllers.ManagerScene">
    <top>
       <HBox alignment="CENTER" prefHeight="16.0" prefWidth="600.0" BorderPane.alignment="CENTER">
@@ -23,10 +28,24 @@
             <Separator orientation="VERTICAL" prefHeight="36.0" prefWidth="10.0" />
             <TextField fx:id="campo_buscar" promptText="buscar..." style="-fx-background-radius: 10;" />
             <Button fx:id="boton_buscar" mnemonicParsing="false" onAction="#onBuscar" prefHeight="29.0" prefWidth="75.0" style="-fx-background-radius: 10;" text="Buscar">
+=======
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.unedl.controllers.AdminController">
+   <top>
+      <HBox alignment="CENTER" prefHeight="16.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <CheckBox fx:id="studentC" mnemonicParsing="false" text="Estudiantes" />
+            <CheckBox fx:id="professorC" mnemonicParsing="false" text="Profesores" />
+            <CheckBox fx:id="coordinatorC" mnemonicParsing="false" text="Coordinadores" />
+            <ChoiceBox fx:id="searchTypeSelec" prefWidth="150.0" style="-fx-background-radius: 10;" />
+            <Separator orientation="VERTICAL" prefHeight="36.0" prefWidth="10.0" />
+            <TextField fx:id="searchField" promptText="buscar..." style="-fx-background-radius: 10;" />
+            <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#onBuscar" prefHeight="29.0" prefWidth="75.0" style="-fx-background-radius: 10;" text="Buscar">
+>>>>>>> exp
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Button>
+<<<<<<< HEAD
          </children>
       </HBox>
    </top>
@@ -166,13 +185,88 @@
                   <Insets left="5.0" right="5.0" top="5.0" />
                </padding>
             </HBox>
+=======
+            <Separator orientation="VERTICAL" prefHeight="29.0" prefWidth="20.0" />
+            <Button fx:id="remove" mnemonicParsing="false" onAction="#onEliminar" prefWidth="70.0" style="-fx-background-radius: 10;" text="Eliminar">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="activeBtn" layoutX="939.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActivar" prefWidth="70.0" style="-fx-background-radius: 10;" text="Activar" />
+>>>>>>> exp
          </children>
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <padding>
+<<<<<<< HEAD
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </VBox>
    </left>
+=======
+            <Insets bottom="10.0" />
+         </padding>
+      </HBox>
+   </top>
+   <center>
+      <TableView fx:id="table" editable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+            <TableColumn fx:id="colId" editable="false" prefWidth="70.0" text="ID" />
+          <TableColumn fx:id="colName" onEditCommit="#onActualizar" prefWidth="150.0" text="Nombre" />
+          <TableColumn fx:id="colLn1" onEditCommit="#onActualizar" prefWidth="150.0" text="Apellido1" />
+            <TableColumn fx:id="colLn2" onEditCommit="#onActualizar" prefWidth="150.0" text="Apellido2" />
+            <TableColumn fx:id="colEmail" onEditCommit="#onActualizar" prefWidth="250.0" text="Email" />
+            <TableColumn fx:id="colReg" minWidth="0.0" onEditCommit="#onActualizar" prefWidth="200.0" text="Cedula/Matricula" />
+            <TableColumn fx:id="colActive" onEditCommit="#onActualizar" prefWidth="126.0" text="Activo" />
+            <TableColumn fx:id="colType" prefWidth="126.0" text="Tipo" />
+        </columns>
+      </TableView>
+   </center>
+   <bottom>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="100.0" prefWidth="117.0">
+               <children>
+                  <RadioButton fx:id="studentR" mnemonicParsing="false" text="Estudiante">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="memberType" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="professorR" mnemonicParsing="false" text="Profesor" toggleGroup="$memberType" />
+                  <RadioButton fx:id="coordinatorR" mnemonicParsing="false" text="Coordinador" toggleGroup="$memberType" />
+               </children>
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+            <TextField fx:id="name" promptText="nombre" />
+            <TextField fx:id="lastName1" layoutX="61.0" layoutY="10.0" promptText="apellido paterno" />
+            <TextField fx:id="lastName2" layoutX="254.0" layoutY="10.0" promptText="apellido materno" />
+            <TextField fx:id="email" layoutX="447.0" layoutY="10.0" promptText="email" />
+            <TextField fx:id="register" layoutX="643.0" layoutY="10.0" promptText="cedula/matricula" />
+            <Group />
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <RadioButton fx:id="active" mnemonicParsing="false" text="Activo">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="isActive" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="noActive" mnemonicParsing="false" text="No activo" toggleGroup="$isActive" />
+               </children>
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Button fx:id="create" mnemonicParsing="false" onAction="#onCrear" prefHeight="29.0" prefWidth="70.0" style="-fx-background-radius: 10;" text="Crear" />
+                  <Button fx:id="clear" layoutX="10.0" layoutY="39.0" mnemonicParsing="false" onAction="#onLimpiar" prefWidth="70.0" style="-fx-background-radius: 10;" text="Limpiar" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </bottom>
+>>>>>>> exp
 </BorderPane>

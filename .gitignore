@@ -36,3 +36,14 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### custom ###
+
+.idea/
+.mvn/
+cred/
+target/
+demo1.iml
+.mvnw
+.mvnw.cmd
+.pom.xml
