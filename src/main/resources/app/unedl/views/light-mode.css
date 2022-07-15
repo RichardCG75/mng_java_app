@@ -1,0 +1,19 @@
+/*.primary-color{*/
+/*    -fx-background-color: #0F181F;*/
+/*}*/
+
+/*.secondary-color{*/
+/*    -fx-background-color: #0F181F;*/
+/*}*/
+
+/*.round-border{*/
+/*    -fx-background-color: #0F181F;*/
+/*}*/
+
+.label{
+    -fx-background-color: #CCCCCC;
+    -fx-background-radius: 10;
+    -fx-pref-height: 28;
+    -fx-text-alignment: center;
+    /*-fx-padding: 5;*/
+}
